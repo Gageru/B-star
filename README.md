@@ -13,12 +13,12 @@
 
 ### Примеры запуска
 ```bash
-python3 main.py --algorithm a* --grid big --start 1 1 --finish 13 13
+python3 main.py --algorithm astar --grid big --start 1 1 --finish 13 13
 ```
 <image src="./screenshots/Figure_1_a*.png" caption="B*">
 
 ```bash
-python3 main.py --algorithm b* --grid big --start 1 1 --finish 13 13
+python3 main.py --algorithm bstar --grid big --start 1 1 --finish 13 13
 ```
 <image src="./screenshots/Figure_1_b*.png" caption="A*">
 
