@@ -9,25 +9,6 @@ from queue import PriorityQueue
 import grid_helper as gh
 from pprint import pprint
 
-def find_path_b_star(grid, start, end):
-    pq = PriorityQueue()
-    pq.put((0, start))
-    came_from = {start: None}
-
-    while not pq.empty():
-        current_pos = pq.get()[1]
-
-        if current_pos == end:
-            break
-
-        neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
-        for neighbor in neighbors:
-            if neighbor not in came_from:
-                priority = gh.heuristic_distance(neighbor, end, type="m")
-                pq.put((priority, neighbor))
-                came_from[neighbor] = current_pos
-    return came_from
-
 def find_path_a_star(grid, start, end):
     pq = PriorityQueue()
     pq.put((0, start))
@@ -49,6 +30,48 @@ def find_path_a_star(grid, start, end):
                 pq.put((priority, neighbor))
                 came_from[neighbor] = current_pos
 
+    return came_from
+
+def find_path_b_star(grid, start, end):
+    pq = PriorityQueue()
+    pq.put((0, start))
+    came_from = {start: None}
+    costs = {start: 0}
+    while not pq.empty():
+        current_pos = pq.get()[1]
+
+        if current_pos == end:
+            break
+
+        neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
+        for neighbor in neighbors:
+            new_cost = costs[current_pos] + gh.get_cost(grid, neighbor)
+
+            if neighbor not in costs or new_cost < costs[neighbor]:
+                costs[neighbor] = new_cost
+                priority = new_cost + gh.heuristic_distance(neighbor, end, type='m')
+                pq.put((priority, neighbor))
+                came_from[neighbor] = current_pos
+
+    return came_from
+
+def find_path_greedy(grid, start, end):
+    pq = PriorityQueue()
+    pq.put((0, start))
+    came_from = {start: None}
+
+    while not pq.empty():
+        current_pos = pq.get()[1]
+
+        if current_pos == end:
+            break
+
+        neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
+        for neighbor in neighbors:
+            if neighbor not in came_from:
+                priority = gh.heuristic_distance(neighbor, end, type="m")
+                pq.put((priority, neighbor))
+                came_from[neighbor] = current_pos
     return came_from
 
 def draw(initial_grid, close_goal, start, end):
@@ -77,8 +100,9 @@ def draw(initial_grid, close_goal, start, end):
     plt.plot(close_goal[:, 1], close_goal[:, 0], '-g', linewidth=3)
     plt.show()
     
-SEARCH_FUNC = {'a*' : find_path_a_star,
-               'b*' : find_path_b_star}
+SEARCH_FUNC = {'astar' : find_path_a_star,
+               'bstar' : find_path_b_star,
+               'bfs': find_path_greedy}
 
 GENERATE_GRID_FUNC = {'empty' : gh.generate_grid_empty,
                       'obstacle' : gh.generate_grid_obstacle,
