@@ -6,7 +6,7 @@
 ### CLI
 ```
 --algorithm #Алгоитм поиска [astar, bstar, bfs]
---grid      #Тип карты [big, obstacle, empty]
+--grid      #Тип карты [big2, big, obstacle, empty]
 --start     #Точка старта
 --finish    #Точка финиша
 ```

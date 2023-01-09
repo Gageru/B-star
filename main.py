@@ -106,7 +106,8 @@ SEARCH_FUNC = {'astar' : find_path_a_star,
 
 GENERATE_GRID_FUNC = {'empty' : gh.generate_grid_empty,
                       'obstacle' : gh.generate_grid_obstacle,
-                      'big' : gh.generate_grid_weighted}
+                      'big' : gh.generate_grid_weighted,
+                      'big2' : gh.generate_grid_weighted_v2}
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--algorithm', choices=SEARCH_FUNC.keys(), default=find_path_b_star)
